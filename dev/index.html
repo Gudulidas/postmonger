@@ -1,69 +1,64 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <title>Custom Journey Builder Activity</title>
 
-    <title>Postmonger - Test Harness</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/require.js"></script>
+    <script type="text/javascript">
+        (function() {
+            var config = {
+                baseUrl: ''
+            };
 
-    <!--Scripts-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="../postmonger.js"></script>
-        <script type="text/javascript">
-            $(window).on('load', function(){
-                setTimeout(function(){
-                    var connection1 = new Postmonger.Session({
-                        connect: $('#iframe1')
-                    });
+            var dependencies = [
+                'customActivity'
+            ];
 
-                    var connection2 = new Postmonger.Session({
-                        connect: $('#iframe2')//,
-                        //from: 'http://localhost:8080'
-                    });
+            require(config, dependencies);
+        })();
+    </script>
 
-                    var connection3 = new Postmonger.Session({
-                        connect: $('#iframe3')//,
-                        //to: 'http://loalhost:8080'
-                    });
+    <!--Styles-->
+    <style type="text/css">
+        body {
+            padding: 20px;
+            margin: 0;
+        }
+        .step {
+            display: none;
+        }
+        #step1 {
+            display: block;
+        }
+    </style>
 
-                    var connection4 = new Postmonger.Session(
-                            {
-                                connect: $('#iframe1')
-                            },
-                            {
-                                connect: $('#iframe2')
-                            },
-                            {
-                                connect: $('#iframe3')
-                            }
-                    );
+</head>
+<body>
+<div id="step1" class="step">
 
-                    connection1.on('test1', function(message){
-                        $('#console').append('<div>' + message + '</div>');
-                        connection1.end();
-                    });
+    Select your SMS message:
+    <select id="select1">
+        <option value="">Select an option</option>
+        <option value="someMessage">Some SMS</option>
+        <option value="anotherMessage">Another SMS</option>
+        <option value="thirdMessage">Third SMS</option>
+        <option value="unknownMessage">Unknown SMS</option>
+    </select>
 
-                    connection2.on('test1', function(message){
-                        $('#console').append('<div>' + message + '</div>');
-                        connection2.end();
-                    });
-
-                    connection3.on('test1', function(message){
-                        $('#console').append('<div>' + message + '</div>');
-                        connection3.end();
-                    });
-
-                    connection4.on('test2', function(message){
-                        $('#console').append('<div>' + message + '</div>');
-                        connection4.end();
-                    });
-
-                    connection1.trigger('test1', 'parent test1 received');
-                    connection2.trigger('test1', 'parent test1 received');
-                    connection3.trigger('test1', 'parent test1 received');
-                    connection4.trigger('test2', 'parent test2 received');
-                }, 500);
-            });
-        </script>
+    <button id="toggleLastStep">Toggle Last Step</button>
+</div>
+<div id="step2" class="step">
+    Here's a second page with some info on it.
+</div>
+<div id="step3" class="step">
+    You chose the message: <div id="message"></div>
+</div>
+<div id="step4" class="step">
+    Hey, here's a fourth step, just for you.  Toggle this on or off from step 1.
+</div>
 
     <!--Styles-->
         <style type="text/css">
